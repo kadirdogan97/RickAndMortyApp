@@ -1,4 +1,4 @@
-package com.kadirdogan97.rickandmortyapp
+package com.kadirdogan97.rickandmortyapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
