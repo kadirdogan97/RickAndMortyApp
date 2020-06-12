@@ -41,7 +41,7 @@ class CharacterListAdapter: RecyclerView.Adapter<CharacterListAdapter.CharacterL
             with(binding) {
                 textViewCharacterName.text = character.name
                 textViewSpecies.text = character.species
-                textViewGender.text = character.gender
+                textViewGender.text = character.id
                 Glide.with(imageViewCharacterImage.context)
                     .load(character.image)
                     .into(imageViewCharacterImage)

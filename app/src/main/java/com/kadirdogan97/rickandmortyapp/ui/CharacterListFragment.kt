@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kadirdogan97.rickandmortyapp.R
 import com.kadirdogan97.rickandmortyapp.data.CharactersStatusViewState
@@ -55,11 +56,11 @@ class CharacterListFragment : Fragment() {
     }
 
     private fun initCharactersRecyclerView() {
-        val linearLayoutManager = LinearLayoutManager(context)
+        val gridLayoutManager = GridLayoutManager(context, 2)
         binding.recyclerView.apply {
             adapter = charactersAdapter
-            layoutManager = linearLayoutManager
-            addOnScrollListener(object : EndlessScrollListener(linearLayoutManager) {
+            layoutManager = gridLayoutManager
+            addOnScrollListener(object : EndlessScrollListener(gridLayoutManager) {
                 override fun onLoadMore(page: Int) {
                     fetchCharacters(page)
                 }

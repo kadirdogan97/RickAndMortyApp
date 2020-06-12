@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorAccent">
     <TextView
         android:id="@+id/viewStateMessage"
         tools:text="@tools:sample/lorem"

@@ -1,5 +1,6 @@
 package com.kadirdogan97.rickandmortyapp.helper
 
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -9,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
  * https://gist.github.com/pratikbutani/dc6b963aa12200b3ad88aecd0d103872
  */
 
-abstract class EndlessScrollListener constructor(private val linearLayoutManager: LinearLayoutManager) :
+abstract class EndlessScrollListener constructor(private val gridLayoutManager: GridLayoutManager) :
     RecyclerView.OnScrollListener() {
 
     private var previousTotal = 0
     private var loading = true
-    private val visibleThreshold = 4
+    private val visibleThreshold = 8
     private var currentItemCount: Int = 0
     private var currentPage = 1
     private var pageCount: Int? = null
@@ -22,7 +23,7 @@ abstract class EndlessScrollListener constructor(private val linearLayoutManager
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
-        currentItemCount = linearLayoutManager.itemCount
+        currentItemCount = gridLayoutManager.itemCount
 
         if (currentItemCount < previousTotal) {
             reset()
@@ -49,7 +50,7 @@ abstract class EndlessScrollListener constructor(private val linearLayoutManager
     }
 
     private fun isLastVisibleItemPositionExceedsTotalItemCount(threshold: Int): Boolean {
-        return linearLayoutManager.findLastVisibleItemPosition() + threshold >= currentItemCount
+        return gridLayoutManager.findLastVisibleItemPosition() + threshold >= currentItemCount
     }
 
     private fun isLastPage(): Boolean {
