@@ -18,14 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel.contents_.observeNonNull(this){
-            Log.d("VALUES", it.toString())
-        }
-        savedInstanceState.runIfNull {
-            fetchCharacters(DEFAULT_PAGE)
-        }
+
     }
-    fun fetchCharacters(page:Int){
-        viewModel.fetchCharacters(page)
-    }
+
 }
