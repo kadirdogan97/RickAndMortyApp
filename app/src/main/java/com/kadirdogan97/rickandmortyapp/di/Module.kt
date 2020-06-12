@@ -16,6 +16,8 @@ import com.kadirdogan97.rickandmortyapp.data.remote.CharactersRemoteDataSource
 import com.kadirdogan97.rickandmortyapp.data.remote.CharactersRemoteDataSourceImpl
 import com.kadirdogan97.rickandmortyapp.data.repository.CharactersRepository
 import com.kadirdogan97.rickandmortyapp.data.repository.CharactersRepositoryImpl
+import com.kadirdogan97.rickandmortyapp.viewmodel.VMCharacterDetail
+import com.kadirdogan97.rickandmortyapp.viewmodel.VMCharacterList
 import com.kadirdogan97.rickandmortyapp.viewmodel.VMMain
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -75,7 +77,14 @@ val repositoryModules = module{
 
 val viewModelModules = module {
     viewModel {
-        VMMain(fetchCharactersUseCase = get())
+        VMMain(charactersUseCase = get())
+    }
+    viewModel {
+        VMCharacterList(charactersUseCase = get())
+
+    }
+    viewModel {
+        VMCharacterDetail(charactersUseCase = get())
     }
 }
 
