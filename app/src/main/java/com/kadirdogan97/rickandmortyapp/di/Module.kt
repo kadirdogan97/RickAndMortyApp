@@ -1,13 +1,26 @@
 package com.kadirdogan97.rickandmortyapp.di
 
+
 import android.app.Application
-import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.apollographql.apollo.ApolloClient
 import com.kadirdogan97.rickandmortyapp.AppConstants
+import com.kadirdogan97.rickandmortyapp.MyApplication
+import com.kadirdogan97.rickandmortyapp.data.CharactersMapper
+import com.kadirdogan97.rickandmortyapp.data.CharactersUseCase
+import com.kadirdogan97.rickandmortyapp.data.local.AppDatabase
+import com.kadirdogan97.rickandmortyapp.data.local.dao.CharacterDao
+import com.kadirdogan97.rickandmortyapp.data.local.datasource.CharactersLocalDataSource
+import com.kadirdogan97.rickandmortyapp.data.local.datasource.CharactersLocalDataSourceImpl
+import com.kadirdogan97.rickandmortyapp.data.remote.CharactersRemoteDataSource
+import com.kadirdogan97.rickandmortyapp.data.remote.CharactersRemoteDataSourceImpl
+import com.kadirdogan97.rickandmortyapp.data.repository.CharactersRepository
+import com.kadirdogan97.rickandmortyapp.data.repository.CharactersRepositoryImpl
+import com.kadirdogan97.rickandmortyapp.viewmodel.VMMain
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import java.util.concurrent.TimeUnit
 
@@ -16,17 +29,17 @@ import java.util.concurrent.TimeUnit
  */
 
 val databaseModules = module {
-    fun provideDatabase(application: Application): Database{
+    fun provideDatabase(application: Application): AppDatabase {
         return Room.databaseBuilder(
             application.applicationContext,
-            Database::class.java,
+            AppDatabase::class.java,
             "rickmorty"
         )
             .fallbackToDestructiveMigration()
             .build()
     }
 
-    fun provideCharacterDao(database: Database):CharacterDao = database.getCharacterDao()
+    fun provideCharacterDao(database: AppDatabase): CharacterDao = database.getCharacterDao()
 
     single { provideDatabase(application = androidApplication()) }
     single { provideCharacterDao(database = get()) }
@@ -38,7 +51,7 @@ val networkModules = module{
         return OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
             .readTimeout(120, TimeUnit.SECONDS)
             .writeTimeout(120, TimeUnit.SECONDS)
-            .build()
+                .build()
     }
 
     fun provideApolloClient(okHttpClient: OkHttpClient): ApolloClient {
@@ -48,4 +61,29 @@ val networkModules = module{
     single {provideOkHttpClient()}
     single { provideApolloClient(okHttpClient = get()) }
 }
+
+val dataSourceModules = module {
+//    single<CharactersLocalDataSource>{ CharactersLocalDataSourceImpl(characterDao = get()) }
+    single<CharactersRemoteDataSource> { CharactersRemoteDataSourceImpl(apolloClient = get()) }
+}
+
+val repositoryModules = module{
+    single<CharactersRepository>{
+        CharactersRepositoryImpl(charactersRemoteDataSource = get())
+    }
+}
+
+val viewModelModules = module {
+    viewModel {
+        VMMain(fetchCharactersUseCase = get())
+    }
+}
+
+val useCaseModules = module{
+    single{
+        CharactersUseCase(charactersRepository = get(), mapper = CharactersMapper())
+    }
+}
+
+
 
