@@ -6,7 +6,7 @@
 - MVVM Architecture
 - Koin Dependency Injection
 - ViewModel
-- GraphQL + Coroutines
+- GraphQL + RxJava
 - Live data
 - Navigation
 - Glide
