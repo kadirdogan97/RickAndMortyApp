@@ -1,6 +1,7 @@
 package com.kadirdogan97.rickandmortyapp.data
 
 import com.kadirdogan97.rickandmortyapp.data.model.Character
+import com.kadirdogan97.rickandmortyapp.data.model.Filter
 import com.kadirdogan97.rickandmortyapp.data.repository.CharactersRepository
 import com.kadirdogan97.rickandmortyapp.helper.Result
 import com.kadirdogan97.rickandmortyapp.helper.map
@@ -11,13 +12,21 @@ import io.reactivex.Observable
  */
 class CharactersUseCase(private val charactersRepository: CharactersRepository, private val mapper: CharactersMapper){
 
-    fun fetchCharacters(page: Int): Observable<Result<List<Character>>> {
+    fun fetchCharacters(page: Int, searchQuery: String, filter: Filter = Filter("","")): Observable<Result<List<Character>>> {
         return charactersRepository
-            .fetchCharacters(page)
+            .fetchCharacters(page, searchQuery, filter)
             .map { resource ->
                 resource.map { response ->
                     mapper.mapFrom(response)
                 }
             }.startWith(Result.Loading)
+    }
+
+    fun putString(key: String, value: String) {
+        charactersRepository.putString(key, value)
+    }
+
+    fun getString(key: String): String {
+        return charactersRepository.getString(key)
     }
 }

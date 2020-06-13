@@ -1,6 +1,7 @@
 package com.kadirdogan97.rickandmortyapp.data.remote
 
 import com.kadirdogan97.rickandmortyapp.GetAllCharactersQuery
+import com.kadirdogan97.rickandmortyapp.data.model.Filter
 import io.reactivex.Observable
 
 /**
@@ -8,6 +9,6 @@ import io.reactivex.Observable
  */
 interface CharactersRemoteDataSource{
 
-    fun fetchCharacters(page: Int): Observable<GetAllCharactersQuery.Data>
+    fun fetchCharacters(page: Int, searchQuery: String, filter: Filter): Observable<GetAllCharactersQuery.Data>
 
 }

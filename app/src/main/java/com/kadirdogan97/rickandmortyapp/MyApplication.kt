@@ -14,7 +14,7 @@ internal class MyApplication : Application() {
 
 
     private fun initKoin(){
-        val modules= listOf(databaseModules, viewModelModules, dataSourceModules, repositoryModules, networkModules, useCaseModules)
+        val modules= listOf(viewModelModules, dataSourceModules, repositoryModules, networkModules, useCaseModules, appModule)
         startKoin{
             androidContext(this@MyApplication)
             modules(modules)

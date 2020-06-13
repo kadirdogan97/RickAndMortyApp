@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorAccent">
+
+    <Button
+        android:id="@+id/testButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Button>
     <TextView
         android:id="@+id/viewStateMessage"
         tools:text="@tools:sample/lorem"

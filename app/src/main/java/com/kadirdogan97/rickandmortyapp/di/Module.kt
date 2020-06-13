@@ -2,16 +2,12 @@ package com.kadirdogan97.rickandmortyapp.di
 
 
 import android.app.Application
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.apollographql.apollo.ApolloClient
-import com.kadirdogan97.rickandmortyapp.AppConstants
-import com.kadirdogan97.rickandmortyapp.MyApplication
+import com.kadirdogan97.rickandmortyapp.BASE_GRAPHQL_URL
 import com.kadirdogan97.rickandmortyapp.data.CharactersMapper
 import com.kadirdogan97.rickandmortyapp.data.CharactersUseCase
-import com.kadirdogan97.rickandmortyapp.data.local.AppDatabase
-import com.kadirdogan97.rickandmortyapp.data.local.dao.CharacterDao
-import com.kadirdogan97.rickandmortyapp.data.local.datasource.CharactersLocalDataSource
-import com.kadirdogan97.rickandmortyapp.data.local.datasource.CharactersLocalDataSourceImpl
 import com.kadirdogan97.rickandmortyapp.data.remote.CharactersRemoteDataSource
 import com.kadirdogan97.rickandmortyapp.data.remote.CharactersRemoteDataSourceImpl
 import com.kadirdogan97.rickandmortyapp.data.repository.CharactersRepository
@@ -30,22 +26,7 @@ import java.util.concurrent.TimeUnit
  * Created by Kadir Doğan on 6/10/2020.
  */
 
-val databaseModules = module {
-    fun provideDatabase(application: Application): AppDatabase {
-        return Room.databaseBuilder(
-            application.applicationContext,
-            AppDatabase::class.java,
-            "rickmorty"
-        )
-            .fallbackToDestructiveMigration()
-            .build()
-    }
 
-    fun provideCharacterDao(database: AppDatabase): CharacterDao = database.getCharacterDao()
-
-    single { provideDatabase(application = androidApplication()) }
-    single { provideCharacterDao(database = get()) }
-}
 
 val networkModules = module{
     fun provideOkHttpClient(): OkHttpClient {
@@ -57,7 +38,7 @@ val networkModules = module{
     }
 
     fun provideApolloClient(okHttpClient: OkHttpClient): ApolloClient {
-        return ApolloClient.builder().okHttpClient(okHttpClient).serverUrl(AppConstants.BASE_GRAPHQL_URL).build()
+        return ApolloClient.builder().okHttpClient(okHttpClient).serverUrl(BASE_GRAPHQL_URL).build()
     }
 
     single {provideOkHttpClient()}
@@ -65,13 +46,12 @@ val networkModules = module{
 }
 
 val dataSourceModules = module {
-//    single<CharactersLocalDataSource>{ CharactersLocalDataSourceImpl(characterDao = get()) }
     single<CharactersRemoteDataSource> { CharactersRemoteDataSourceImpl(apolloClient = get()) }
 }
 
 val repositoryModules = module{
     single<CharactersRepository>{
-        CharactersRepositoryImpl(charactersRemoteDataSource = get())
+        CharactersRepositoryImpl(charactersRemoteDataSource = get(), sharedPreferences = get())
     }
 }
 
@@ -90,8 +70,21 @@ val viewModelModules = module {
 
 val useCaseModules = module{
     single{
-        CharactersUseCase(charactersRepository = get(), mapper = CharactersMapper())
+        CharactersMapper()
     }
+    single{
+        CharactersUseCase(charactersRepository = get(), mapper = get())
+    }
+}
+val appModule = module {
+
+    single{ provideSharedPrefs(androidApplication()) }
+
+    single<SharedPreferences.Editor> { provideSharedPrefs(androidApplication()).edit() }
+}
+
+fun provideSharedPrefs(androidApplication: Application): SharedPreferences{
+    return  androidApplication.getSharedPreferences("default",  android.content.Context.MODE_PRIVATE)
 }
 
 

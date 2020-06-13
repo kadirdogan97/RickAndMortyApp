@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * this is just a copy-paste class.
+ * this is acopy-paste and minor decorated class.
  * reference :
  * https://gist.github.com/pratikbutani/dc6b963aa12200b3ad88aecd0d103872
  */

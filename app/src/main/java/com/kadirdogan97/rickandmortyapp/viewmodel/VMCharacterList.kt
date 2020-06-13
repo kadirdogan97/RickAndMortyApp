@@ -2,10 +2,13 @@ package com.kadirdogan97.rickandmortyapp.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.kadirdogan97.rickandmortyapp.KEY_FILTER_GENDER
+import com.kadirdogan97.rickandmortyapp.KEY_FILTER_STATUS
+import com.kadirdogan97.rickandmortyapp.KEY_SEARCH_QUERY
 import com.kadirdogan97.rickandmortyapp.data.CharactersStatusViewState
 import com.kadirdogan97.rickandmortyapp.data.CharactersUseCase
 import com.kadirdogan97.rickandmortyapp.data.model.Character
+import com.kadirdogan97.rickandmortyapp.data.model.Filter
 import com.kadirdogan97.rickandmortyapp.helper.ReactiveViewModel
 import com.kadirdogan97.rickandmortyapp.helper.Result
 import com.kadirdogan97.rickandmortyapp.helper.Status
@@ -24,9 +27,12 @@ class VMCharacterList(private val charactersUseCase: CharactersUseCase): Reactiv
     val status_: LiveData<CharactersStatusViewState> = status
 
 
+    private val isFiltering = MutableLiveData<Boolean>()
+    val isFiltering_: LiveData<Boolean> = isFiltering
+
     fun fetchCharacters(page: Int) {
         charactersUseCase
-            .fetchCharacters(page)
+            .fetchCharacters(page,charactersUseCase.getString(KEY_SEARCH_QUERY),Filter(charactersUseCase.getString(KEY_FILTER_STATUS),charactersUseCase.getString(KEY_FILTER_GENDER)))
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess {
                 onCharactersContentResultReady(it)
@@ -38,6 +44,24 @@ class VMCharacterList(private val charactersUseCase: CharactersUseCase): Reactiv
     }
 
 
+    fun setFilters(status:String, gender:String){
+        charactersUseCase.putString(KEY_FILTER_STATUS,status)
+        charactersUseCase.putString(KEY_FILTER_GENDER,gender)
+        isFiltering.value = true
+    }
+    fun setNonFiltered(){
+        isFiltering.value = false
+    }
+    fun clearQueries(){
+        charactersUseCase.putString(KEY_FILTER_STATUS,"")
+        charactersUseCase.putString(KEY_FILTER_GENDER,"")
+        charactersUseCase.putString(KEY_SEARCH_QUERY,"")
+        isFiltering.value = false
+    }
+
+    fun setSearchQuery(query: String){
+        charactersUseCase.putString(KEY_SEARCH_QUERY,query)
+    }
 
     private fun onCharactersStatusResultReady(resource: Result<List<Character>>) {
 

@@ -1,5 +1,5 @@
-query GetAllCharacters($page: Int!, $name: String!, $status: String!, $species: String!, $type: String!, $gender: String!){
-  characters(page: $page, filter: {name: $name, status: $status, species: $species, type: $type, gender: $gender}) {
+query GetAllCharacters($page: Int!, $name: String!, $status: String!, $gender: String!){
+  characters(page: $page, filter: {name: $name, status: $status, gender: $gender}) {
     info {
       count
       pages

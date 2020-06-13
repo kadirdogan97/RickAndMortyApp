@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.kadirdogan97.rickandmortyapp.R
 import com.kadirdogan97.rickandmortyapp.data.model.Character
 import com.kadirdogan97.rickandmortyapp.databinding.CharacterItemBinding
 
@@ -27,7 +26,9 @@ class CharacterListAdapter: RecyclerView.Adapter<CharacterListAdapter.CharacterL
     }
 
     private fun getCharacter(position: Int) = popularTvShows[position]
-
+    fun clearCharacters() {
+        popularTvShows.clear()
+    }
     fun setCharacters(tvShows: List<Character>) {
         val beforeSize = popularTvShows.size
         popularTvShows.addAll(tvShows)
@@ -40,8 +41,8 @@ class CharacterListAdapter: RecyclerView.Adapter<CharacterListAdapter.CharacterL
         fun bind(character: Character) {
             with(binding) {
                 textViewCharacterName.text = character.name
-                textViewSpecies.text = character.species
-                textViewGender.text = character.id
+                textViewSpecies.text = character.status
+                textViewGender.text = character.gender
                 Glide.with(imageViewCharacterImage.context)
                     .load(character.image)
                     .into(imageViewCharacterImage)
