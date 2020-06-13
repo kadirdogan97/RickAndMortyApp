@@ -3,28 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorAccent">
-
-    <Button
-        android:id="@+id/testButton"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></Button>
-    <TextView
-        android:id="@+id/viewStateMessage"
-        tools:text="@tools:sample/lorem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        tools:visibility="visible"/>
+        android:layout_height="wrap_content">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="4dp">
+            <RelativeLayout
+                android:id="@+id/cardview_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
 
-    <ProgressBar
-        android:id="@+id/progress_horizontal"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:theme="@style/LinearProgress"
-        tools:visibility="visible" />
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    app:searchIcon="@drawable/ic_search"
+                    android:layout_height="wrap_content"
+                    app:queryHint="Search Character"
+                    style="@style/SearchStyle"
+                    android:inputType="text"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/filterButton"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/ic_filter" />
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -35,5 +50,25 @@
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
         tools:listitem="@layout/character_item"
+        tools:visibility="visible"
+        android:layout_below="@id/app_bar"/>
+    <TextView
+        android:id="@+id/viewStateMessage"
+        tools:text="@tools:sample/lorem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        tools:visibility="visible"/>
+
+    <ProgressBar
+        android:id="@+id/progressHorizontal"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_marginTop="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:theme="@style/LinearProgress"
         tools:visibility="visible" />
+
+
 </RelativeLayout>

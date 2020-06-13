@@ -27,8 +27,8 @@ class VMCharacterList(private val charactersUseCase: CharactersUseCase): Reactiv
     val status_: LiveData<CharactersStatusViewState> = status
 
 
-    private val isFiltering = MutableLiveData<Boolean>()
-    val isFiltering_: LiveData<Boolean> = isFiltering
+    private val hasChanging = MutableLiveData<Boolean>()
+    val hasChanging_: LiveData<Boolean> = hasChanging
 
     fun fetchCharacters(page: Int) {
         charactersUseCase
@@ -47,20 +47,22 @@ class VMCharacterList(private val charactersUseCase: CharactersUseCase): Reactiv
     fun setFilters(status:String, gender:String){
         charactersUseCase.putString(KEY_FILTER_STATUS,status)
         charactersUseCase.putString(KEY_FILTER_GENDER,gender)
-        isFiltering.value = true
+        hasChanging.value = true
     }
-    fun setNonFiltered(){
-        isFiltering.value = false
+    fun setNonHasChange(){
+        hasChanging.value = false
     }
     fun clearQueries(){
         charactersUseCase.putString(KEY_FILTER_STATUS,"")
         charactersUseCase.putString(KEY_FILTER_GENDER,"")
         charactersUseCase.putString(KEY_SEARCH_QUERY,"")
-        isFiltering.value = false
+        hasChanging.value = false
     }
 
     fun setSearchQuery(query: String){
         charactersUseCase.putString(KEY_SEARCH_QUERY,query)
+        hasChanging.value = true
+
     }
 
     private fun onCharactersStatusResultReady(resource: Result<List<Character>>) {
@@ -76,6 +78,8 @@ class VMCharacterList(private val charactersUseCase: CharactersUseCase): Reactiv
     private fun onCharactersContentResultReady(results: List<Character>) {
         contents.value = results
     }
+
+    fun getFilters() = Filter(charactersUseCase.getString(KEY_FILTER_STATUS),charactersUseCase.getString(KEY_FILTER_GENDER))
 
 
 }

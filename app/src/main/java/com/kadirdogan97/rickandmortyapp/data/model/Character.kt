@@ -1,5 +1,7 @@
 package com.kadirdogan97.rickandmortyapp.data.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -8,23 +10,49 @@ import androidx.room.PrimaryKey
 /**
  * Created by Kadir Doğan on 6/10/2020.
  */
-@Entity(tableName = "characters")
 data class Character(
-    @PrimaryKey(autoGenerate = false) @NonNull
-    @ColumnInfo(name = "character_id")
-    var id: String,
-    @ColumnInfo(name = "name")
+    var id: String? = null,
     val name: String? = null,
-    @ColumnInfo(name = "status")
     val status: String? = null,
-    @ColumnInfo(name = "species")
     val species: String? = null,
-    @ColumnInfo(name = "type")
     val type: String? = null,
-    @ColumnInfo(name = "gender")
     val gender: String? = null,
-    @ColumnInfo(name = "image")
     val image: String? = null
-){
+): Parcelable{
+    constructor(parcel: Parcel) : this(
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString()
+    ) {
+    }
+
     constructor():this("","","", "","","","")
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
+        parcel.writeString(name)
+        parcel.writeString(status)
+        parcel.writeString(species)
+        parcel.writeString(type)
+        parcel.writeString(gender)
+        parcel.writeString(image)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Character> {
+        override fun createFromParcel(parcel: Parcel): Character {
+            return Character(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Character?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

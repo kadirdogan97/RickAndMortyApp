@@ -13,7 +13,7 @@ import com.kadirdogan97.rickandmortyapp.databinding.CharacterItemBinding
 class CharacterListAdapter: RecyclerView.Adapter<CharacterListAdapter.CharacterListItemViewHolder>() {
 
     private var popularTvShows: MutableList<Character> = mutableListOf()
-
+    private lateinit var itemClickListener: ItemClickListener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterListItemViewHolder {
         val itemBinding = CharacterItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return CharacterListItemViewHolder(itemBinding)
@@ -22,7 +22,7 @@ class CharacterListAdapter: RecyclerView.Adapter<CharacterListAdapter.CharacterL
     override fun getItemCount(): Int = popularTvShows.size
 
     override fun onBindViewHolder(holder: CharacterListItemViewHolder, position: Int) {
-        holder.bind(getCharacter(position))
+        holder.bind(getCharacter(position), itemClickListener)
     }
 
     private fun getCharacter(position: Int) = popularTvShows[position]
@@ -34,11 +34,14 @@ class CharacterListAdapter: RecyclerView.Adapter<CharacterListAdapter.CharacterL
         popularTvShows.addAll(tvShows)
         notifyItemRangeInserted(beforeSize, tvShows.size)
     }
+    fun setListener(itemClickListener: ItemClickListener) {
+        this.itemClickListener = itemClickListener
+    }
 
     inner class CharacterListItemViewHolder(private val binding: CharacterItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(character: Character) {
+        fun bind(character: Character, itemClickListener: ItemClickListener) {
             with(binding) {
                 textViewCharacterName.text = character.name
                 textViewSpecies.text = character.status
@@ -46,9 +49,15 @@ class CharacterListAdapter: RecyclerView.Adapter<CharacterListAdapter.CharacterL
                 Glide.with(imageViewCharacterImage.context)
                     .load(character.image)
                     .into(imageViewCharacterImage)
+                characterCardView.setOnClickListener {
+                    itemClickListener.onClick(character)
+                }
             }
 
         }
 
     }
+}
+interface ItemClickListener {
+    fun onClick(character: Character)
 }
