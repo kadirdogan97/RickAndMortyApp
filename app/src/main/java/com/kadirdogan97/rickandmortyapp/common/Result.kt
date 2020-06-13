@@ -1,4 +1,4 @@
-package com.kadirdogan97.rickandmortyapp.helper
+package com.kadirdogan97.rickandmortyapp.common
 
 
 // references :

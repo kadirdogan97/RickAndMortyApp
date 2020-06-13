@@ -1,20 +1,17 @@
-package com.kadirdogan97.rickandmortyapp.di
+package com.kadirdogan97.rickandmortyapp.common.di
 
 
 import android.app.Application
 import android.content.SharedPreferences
-import androidx.room.Room
 import com.apollographql.apollo.ApolloClient
 import com.kadirdogan97.rickandmortyapp.BASE_GRAPHQL_URL
-import com.kadirdogan97.rickandmortyapp.data.CharactersMapper
-import com.kadirdogan97.rickandmortyapp.data.CharactersUseCase
+import com.kadirdogan97.rickandmortyapp.ui.CharactersMapper
+import com.kadirdogan97.rickandmortyapp.ui.CharactersUseCase
 import com.kadirdogan97.rickandmortyapp.data.remote.CharactersRemoteDataSource
 import com.kadirdogan97.rickandmortyapp.data.remote.CharactersRemoteDataSourceImpl
 import com.kadirdogan97.rickandmortyapp.data.repository.CharactersRepository
 import com.kadirdogan97.rickandmortyapp.data.repository.CharactersRepositoryImpl
-import com.kadirdogan97.rickandmortyapp.viewmodel.VMCharacterDetail
-import com.kadirdogan97.rickandmortyapp.viewmodel.VMCharacterList
-import com.kadirdogan97.rickandmortyapp.viewmodel.VMMain
+import com.kadirdogan97.rickandmortyapp.ui.VMCharacterList
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
@@ -57,14 +54,7 @@ val repositoryModules = module{
 
 val viewModelModules = module {
     viewModel {
-        VMMain(charactersUseCase = get())
-    }
-    viewModel {
         VMCharacterList(charactersUseCase = get())
-
-    }
-    viewModel {
-        VMCharacterDetail(charactersUseCase = get())
     }
 }
 
@@ -73,7 +63,10 @@ val useCaseModules = module{
         CharactersMapper()
     }
     single{
-        CharactersUseCase(charactersRepository = get(), mapper = get())
+        CharactersUseCase(
+            charactersRepository = get(),
+            mapper = get()
+        )
     }
 }
 val appModule = module {

@@ -1,8 +1,8 @@
-package com.kadirdogan97.rickandmortyapp.data
+package com.kadirdogan97.rickandmortyapp.ui
 
 import com.kadirdogan97.rickandmortyapp.GetAllCharactersQuery
 import com.kadirdogan97.rickandmortyapp.data.model.Character
-import com.kadirdogan97.rickandmortyapp.helper.Mapper
+import com.kadirdogan97.rickandmortyapp.common.Mapper
 
 /**
  * Created by Kadir Doğan on 6/12/2020.

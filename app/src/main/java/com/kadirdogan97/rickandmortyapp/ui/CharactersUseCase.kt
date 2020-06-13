@@ -1,10 +1,10 @@
-package com.kadirdogan97.rickandmortyapp.data
+package com.kadirdogan97.rickandmortyapp.ui
 
 import com.kadirdogan97.rickandmortyapp.data.model.Character
 import com.kadirdogan97.rickandmortyapp.data.model.Filter
 import com.kadirdogan97.rickandmortyapp.data.repository.CharactersRepository
-import com.kadirdogan97.rickandmortyapp.helper.Result
-import com.kadirdogan97.rickandmortyapp.helper.map
+import com.kadirdogan97.rickandmortyapp.common.Result
+import com.kadirdogan97.rickandmortyapp.common.map
 import io.reactivex.Observable
 
 /**

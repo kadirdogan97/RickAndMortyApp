@@ -1,6 +1,6 @@
-package com.kadirdogan97.rickandmortyapp.data
+package com.kadirdogan97.rickandmortyapp.ui
 
-import com.kadirdogan97.rickandmortyapp.helper.Status
+import com.kadirdogan97.rickandmortyapp.common.Status
 
 /**
  * Created by Kadir Doğan on 6/12/2020.

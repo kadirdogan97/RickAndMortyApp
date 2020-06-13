@@ -1,29 +1,20 @@
 package com.kadirdogan97.rickandmortyapp.ui
 
-import android.content.ClipData
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.kadirdogan97.rickandmortyapp.R
 import com.kadirdogan97.rickandmortyapp.SELECTION_ALL
-import com.kadirdogan97.rickandmortyapp.data.CharactersStatusViewState
 import com.kadirdogan97.rickandmortyapp.data.model.Character
 import com.kadirdogan97.rickandmortyapp.databinding.FragmentCharacterListBinding
-import com.kadirdogan97.rickandmortyapp.helper.EndlessScrollListener
-import com.kadirdogan97.rickandmortyapp.helper.observeNonNull
-import com.kadirdogan97.rickandmortyapp.helper.runIfNull
-import com.kadirdogan97.rickandmortyapp.viewmodel.VMCharacterList
-import kotlinx.android.synthetic.main.fragment_character_list.*
-import okhttp3.internal.notifyAll
-import org.koin.android.ext.android.bind
+import com.kadirdogan97.rickandmortyapp.common.EndlessScrollListener
+import com.kadirdogan97.rickandmortyapp.common.observeNonNull
+import com.kadirdogan97.rickandmortyapp.common.runIfNull
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**

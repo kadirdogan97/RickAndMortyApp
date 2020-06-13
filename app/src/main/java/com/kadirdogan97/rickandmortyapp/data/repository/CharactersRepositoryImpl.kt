@@ -6,7 +6,7 @@ import com.kadirdogan97.rickandmortyapp.GetAllCharactersQuery
 import com.kadirdogan97.rickandmortyapp.data.model.Character
 import com.kadirdogan97.rickandmortyapp.data.model.Filter
 import com.kadirdogan97.rickandmortyapp.data.remote.CharactersRemoteDataSource
-import com.kadirdogan97.rickandmortyapp.helper.Result
+import com.kadirdogan97.rickandmortyapp.common.Result
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 

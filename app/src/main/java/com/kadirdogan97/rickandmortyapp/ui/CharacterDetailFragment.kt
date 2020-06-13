@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.kadirdogan97.rickandmortyapp.data.model.Character
 import com.kadirdogan97.rickandmortyapp.databinding.FragmentCharacterDetailBinding
-import com.kadirdogan97.rickandmortyapp.databinding.FragmentCharacterListBinding
 
 /**
  * Created by Kadir Doğan on 6/10/2020.

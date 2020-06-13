@@ -1,18 +1,16 @@
-package com.kadirdogan97.rickandmortyapp.viewmodel
+package com.kadirdogan97.rickandmortyapp.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kadirdogan97.rickandmortyapp.KEY_FILTER_GENDER
 import com.kadirdogan97.rickandmortyapp.KEY_FILTER_STATUS
 import com.kadirdogan97.rickandmortyapp.KEY_SEARCH_QUERY
-import com.kadirdogan97.rickandmortyapp.data.CharactersStatusViewState
-import com.kadirdogan97.rickandmortyapp.data.CharactersUseCase
 import com.kadirdogan97.rickandmortyapp.data.model.Character
 import com.kadirdogan97.rickandmortyapp.data.model.Filter
-import com.kadirdogan97.rickandmortyapp.helper.ReactiveViewModel
-import com.kadirdogan97.rickandmortyapp.helper.Result
-import com.kadirdogan97.rickandmortyapp.helper.Status
-import com.kadirdogan97.rickandmortyapp.helper.doOnSuccess
+import com.kadirdogan97.rickandmortyapp.common.ReactiveViewModel
+import com.kadirdogan97.rickandmortyapp.common.Result
+import com.kadirdogan97.rickandmortyapp.common.Status
+import com.kadirdogan97.rickandmortyapp.common.doOnSuccess
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 /**
@@ -68,9 +66,15 @@ class VMCharacterList(private val charactersUseCase: CharactersUseCase): Reactiv
     private fun onCharactersStatusResultReady(resource: Result<List<Character>>) {
 
         val viewState = when (resource) {
-            is Result.Success -> CharactersStatusViewState(Status.Content)
-            is Result.Error -> CharactersStatusViewState(Status.Error(resource.exception))
-            Result.Loading -> CharactersStatusViewState(Status.Loading)
+            is Result.Success -> CharactersStatusViewState(
+                Status.Content
+            )
+            is Result.Error -> CharactersStatusViewState(
+                Status.Error(resource.exception)
+            )
+            Result.Loading -> CharactersStatusViewState(
+                Status.Loading
+            )
         }
         status.value = viewState
     }

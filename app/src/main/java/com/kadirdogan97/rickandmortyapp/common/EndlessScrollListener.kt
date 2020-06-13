@@ -1,7 +1,6 @@
-package com.kadirdogan97.rickandmortyapp.helper
+package com.kadirdogan97.rickandmortyapp.common
 
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 /**

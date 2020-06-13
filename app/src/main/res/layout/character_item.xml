@@ -24,7 +24,7 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/lightTeal">
+            android:background="@color/lightBlue">
 
             <TextView
                 android:id="@+id/textViewCharacterName"
@@ -34,7 +34,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorWhite"
                 android:fontFamily="@font/montserrat"
                 android:textSize="16sp"
                 android:textStyle="bold"

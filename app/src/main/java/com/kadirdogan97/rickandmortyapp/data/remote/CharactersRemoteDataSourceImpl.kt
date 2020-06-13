@@ -1,7 +1,6 @@
 package com.kadirdogan97.rickandmortyapp.data.remote
 
 import android.annotation.SuppressLint
-import android.util.Log
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.rx2.rxQuery
 import com.kadirdogan97.rickandmortyapp.GetAllCharactersQuery
