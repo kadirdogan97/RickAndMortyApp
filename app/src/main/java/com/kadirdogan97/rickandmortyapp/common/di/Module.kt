@@ -2,21 +2,26 @@ package com.kadirdogan97.rickandmortyapp.common.di
 
 
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.cache.http.ApolloHttpCache
+import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore
 import com.kadirdogan97.rickandmortyapp.BASE_GRAPHQL_URL
-import com.kadirdogan97.rickandmortyapp.ui.CharactersMapper
-import com.kadirdogan97.rickandmortyapp.ui.CharactersUseCase
+import com.kadirdogan97.rickandmortyapp.ui.characters.CharactersMapper
+import com.kadirdogan97.rickandmortyapp.ui.characters.CharactersUseCase
 import com.kadirdogan97.rickandmortyapp.data.remote.CharactersRemoteDataSource
 import com.kadirdogan97.rickandmortyapp.data.remote.CharactersRemoteDataSourceImpl
 import com.kadirdogan97.rickandmortyapp.data.repository.CharactersRepository
 import com.kadirdogan97.rickandmortyapp.data.repository.CharactersRepositoryImpl
-import com.kadirdogan97.rickandmortyapp.ui.VMCharacterList
+import com.kadirdogan97.rickandmortyapp.ui.characters.VMCharacterList
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import java.io.File
 import java.util.concurrent.TimeUnit
 
 /**
@@ -34,12 +39,16 @@ val networkModules = module{
                 .build()
     }
 
-    fun provideApolloClient(okHttpClient: OkHttpClient): ApolloClient {
-        return ApolloClient.builder().okHttpClient(okHttpClient).serverUrl(BASE_GRAPHQL_URL).build()
+    fun provideApolloClient(okHttpClient: OkHttpClient, context: Context): ApolloClient {
+        val file = File(context.cacheDir, "apolloCache")
+        val size: Long = 1024 * 1024
+        val cacheStore = DiskLruHttpCacheStore(file, size)
+
+        return ApolloClient.builder().okHttpClient(okHttpClient).httpCache(ApolloHttpCache(cacheStore)).serverUrl(BASE_GRAPHQL_URL).build()
     }
 
     single {provideOkHttpClient()}
-    single { provideApolloClient(okHttpClient = get()) }
+    single { provideApolloClient(context = androidContext(), okHttpClient = get()) }
 }
 
 val dataSourceModules = module {
@@ -54,7 +63,9 @@ val repositoryModules = module{
 
 val viewModelModules = module {
     viewModel {
-        VMCharacterList(charactersUseCase = get())
+        VMCharacterList(
+            charactersUseCase = get()
+        )
     }
 }
 

@@ -2,7 +2,8 @@ package com.kadirdogan97.rickandmortyapp.data.remote
 
 import android.annotation.SuppressLint
 import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.rx2.rxQuery
+import com.apollographql.apollo.api.cache.http.HttpCachePolicy
+import com.apollographql.apollo.rx2.Rx2Apollo
 import com.kadirdogan97.rickandmortyapp.GetAllCharactersQuery
 import com.kadirdogan97.rickandmortyapp.data.model.Filter
 import io.reactivex.Observable
@@ -21,6 +22,7 @@ class CharactersRemoteDataSourceImpl(private val apolloClient: ApolloClient): Ch
             filter.status?:"",
             filter.gender?:""
         )
-        return  apolloClient.rxQuery(query).map { it.data }
+
+        return  Rx2Apollo.from(apolloClient.query(query).httpCachePolicy(HttpCachePolicy.CACHE_FIRST)).map { it.data }
     }
 }

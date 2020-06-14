@@ -1,4 +1,4 @@
-package com.kadirdogan97.rickandmortyapp.ui
+package com.kadirdogan97.rickandmortyapp.ui.characters
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,7 +28,8 @@ class CharacterListFragment : Fragment(){
     companion object{
         const val DEFAULT_PAGE = 1
     }
-        private val charactersAdapter = CharacterListAdapter()
+        private val charactersAdapter =
+            CharacterListAdapter()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,6 +42,7 @@ class CharacterListFragment : Fragment(){
         savedInstanceState.runIfNull {
             fetchCharacters(DEFAULT_PAGE)
         }
+
         initCharactersRecyclerView()
         return binding.root
     }
@@ -64,33 +66,42 @@ class CharacterListFragment : Fragment(){
     }
 
     private fun initListeners() {
-        binding.filterButton.setOnClickListener {
-            val navigationDialog = NavigationView()
-            navigationDialog.setDialogResult(object: NavigationView.FilterDialogListener{
-                override fun applyFilters(status: String, gender: String) {
-                    clearCharacters()
-                    viewModel.setFilters(if(status != SELECTION_ALL) status else "", if(gender != SELECTION_ALL) gender else "")
+        with(binding){
+            filterButton.setOnClickListener {
+                val navigationDialog =
+                    NavigationView()
+                navigationDialog.setDialogResult(object:
+                    NavigationView.FilterDialogListener {
+                    override fun applyFilters(status: String, gender: String) {
+                        clearCharacters()
+                        viewModel.setFilters(if(status != SELECTION_ALL) status else "", if(gender != SELECTION_ALL) gender else "")
+                    }
+
+                })
+                navigationDialog.showFilterDialog(requireContext(), viewModel.getFilters())
+            }
+            searchView.setOnQueryTextFocusChangeListener { v, hasFocus -> if(hasFocus) binding.filterButton.visibility = View.GONE else binding.filterButton.visibility = View.VISIBLE }
+            searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
                 }
 
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    newText?.let {
+                        clearCharacters()
+                        viewModel.setSearchQuery(newText)
+                    }
+                    return true
+                }
             })
-            navigationDialog.showFilterDialog(requireContext(), viewModel.getFilters())
+            swipeRefresh.setOnRefreshListener {
+                clearCharacters()
+                viewModel.fetchCharacters(DEFAULT_PAGE)
+                swipeRefresh.isRefreshing = false
+            }
         }
-        binding.searchView.setOnQueryTextFocusChangeListener { v, hasFocus -> if(hasFocus) binding.filterButton.visibility = View.GONE else binding.filterButton.visibility = View.VISIBLE }
-        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let {
-                    clearCharacters()
-                    viewModel.setSearchQuery(newText)
-                }
-                return true
-            }
-
-        })
-        charactersAdapter.setListener(object: ItemClickListener{
+        charactersAdapter.setListener(object:
+            ItemClickListener {
             override fun onClick(character: Character) {
                 val bundle = Bundle()
                 bundle.putParcelable("character", character)

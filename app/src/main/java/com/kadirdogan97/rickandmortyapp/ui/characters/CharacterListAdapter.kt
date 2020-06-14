@@ -1,4 +1,4 @@
-package com.kadirdogan97.rickandmortyapp.ui
+package com.kadirdogan97.rickandmortyapp.ui.characters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

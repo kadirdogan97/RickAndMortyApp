@@ -24,9 +24,6 @@ class CharactersRepositoryImpl(private val charactersRemoteDataSource: Character
                 Result.Error(throwable)
             }.subscribeOn(Schedulers.io())
     }
-    override fun getCharacters(): List<Character> {
-        return emptyList()
-    }
 
     override fun putString(key: String, value: String) {
         sharedPreferences.edit().putString(key, value)?.apply()

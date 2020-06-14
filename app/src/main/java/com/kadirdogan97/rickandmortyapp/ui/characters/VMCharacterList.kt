@@ -1,4 +1,4 @@
-package com.kadirdogan97.rickandmortyapp.ui
+package com.kadirdogan97.rickandmortyapp.ui.characters
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

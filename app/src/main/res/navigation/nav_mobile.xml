@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/characterListFragment"
-        android:name="com.kadirdogan97.rickandmortyapp.ui.CharacterListFragment"
+        android:name="com.kadirdogan97.rickandmortyapp.ui.characters.CharacterListFragment"
         android:label="CharacterListFragment" >
         <action
             android:id="@+id/action_characterListFragment_to_characterDetailFragment"
@@ -17,6 +17,6 @@
     </fragment>
     <fragment
         android:id="@+id/characterDetailFragment"
-        android:name="com.kadirdogan97.rickandmortyapp.ui.CharacterDetailFragment"
+        android:name="com.kadirdogan97.rickandmortyapp.ui.characters.CharacterDetailFragment"
         android:label="CharacterDetailFragment" />
 </navigation>

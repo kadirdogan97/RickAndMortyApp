@@ -14,5 +14,4 @@ interface CharactersRepository{
     fun fetchCharacters(page: Int, searchQuery: String, filter: Filter): Observable<Result<GetAllCharactersQuery.Data>>
     fun putString(key: String, value: String)
     fun getString(key: String): String
-    fun getCharacters(): List<Character>
 }
