@@ -69,9 +69,9 @@ class CharacterListFragment : Fragment(){
         with(binding){
             filterButton.setOnClickListener {
                 val navigationDialog =
-                    NavigationView()
+                    FilterDialog()
                 navigationDialog.setDialogResult(object:
-                    NavigationView.FilterDialogListener {
+                    FilterDialog.FilterDialogListener {
                     override fun applyFilters(status: String, gender: String) {
                         clearCharacters()
                         viewModel.setFilters(if(status != SELECTION_ALL) status else "", if(gender != SELECTION_ALL) gender else "")

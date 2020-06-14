@@ -21,8 +21,8 @@
         <item name="android:windowAnimationStyle">@style/ActionSheetDialogRight</item>
     </style>
     <style name="ActionSheetDialogRight" parent="@android:style/Animation.Dialog">
-        <item name="android:windowEnterAnimation">@anim/dialog_right_in</item>
-        <item name="android:windowExitAnimation">@anim/dialog_right_out</item>
+        <item name="android:windowEnterAnimation">@anim/dialog_filter_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_filter_out</item>
     </style>
     <style name="SearchStyle" parent="Widget.AppCompat.SearchView">
         <item name="android:textColor">@color/colorPrimaryDark</item>
